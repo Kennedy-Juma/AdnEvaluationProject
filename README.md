@@ -1,0 +1,1 @@
+This project contains a flutter mobile app for frontend and .net api for backend. It is a simple authentication system. To read more about how to set up, kindly refer to the individual READ of the projects.
