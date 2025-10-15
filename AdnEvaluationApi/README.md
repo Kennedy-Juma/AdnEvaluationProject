@@ -11,7 +11,7 @@ Small .NET 9 evaluation project for ADN — implements user registration and login
 
 ## Prerequisites
 - .NET 9 SDK installed
-- SQL Server instance (currently using this but in the next iteration will have support for mysql and postgres)
+- MYSQL server/mysql mariaDB instance
 - Optional: Visual Studio 2022 or any .NET editor
 - EF Core CLI tools if you use the CLI (__dotnet tool install --global dotnet-ef__)
 
@@ -19,14 +19,14 @@ Small .NET 9 evaluation project for ADN — implements user registration and login
 Primary settings live in `appsettings.json`
 
 ## Database (migrations)
-A migration has already been added (`Migrations/20251012183729_InitialSetup.cs`) which creates the Identity schema.
+A migration has already been added which creates the Identity schema.
 To apply migrations:
 - From CLI:
   - __dotnet ef database update__
 - From Visual Studio:
   - Open __Package Manager Console__ and run: __Update-Database__
 
-Ensure the connection string points to a valid SQL Server before running.
+Ensure the connection string points to a valid MYSQL before running.
 
 ## Running the API
 - From CLI: __dotnet run__
