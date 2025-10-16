@@ -55,9 +55,9 @@ class MainScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Welcome, \$userId', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+              Text('Welcome, $userId', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
-              Text('Role: \$role', style: const TextStyle(color: Colors.black54)),
+              Text('Role: $role', style: const TextStyle(color: Colors.black54)),
               const SizedBox(height: 20),
               if (role.toLowerCase().contains('admin')) _adminContent() else _userContent(),
             ],

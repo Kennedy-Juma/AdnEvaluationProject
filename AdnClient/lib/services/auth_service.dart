@@ -20,7 +20,10 @@ class AuthService with ChangeNotifier {
   //save access token/current session in local storage
   Future<void> saveToken(String token) async {
     _token = token;
+    Map<String, dynamic> payload = Jwt.parseJwt(token);
     await _storage.write(key: 'jwt_token', value: token);
+    role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    userId = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
     notifyListeners();
   }
 
