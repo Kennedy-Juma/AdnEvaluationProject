@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
+using AdnEvaluationApi.Constants;
 using AdnEvaluationApi.Dtos;
 using AdnEvaluationApi.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AdnEvaluationApi.Controllers
 {
@@ -15,12 +17,12 @@ namespace AdnEvaluationApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
 
         public AuthController(
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             IConfiguration configuration)
         {
             _userManager = userManager;
@@ -28,8 +30,7 @@ namespace AdnEvaluationApi.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost]
-        [Route("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto userLogin)
         {
             var user = await _userManager.FindByNameAsync(userLogin.Username);
@@ -59,8 +60,7 @@ namespace AdnEvaluationApi.Controllers
             return Unauthorized();
         }
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto userRestration)
         {
             var userExists = await _userManager.FindByNameAsync(userRestration.Email);
@@ -82,6 +82,7 @@ namespace AdnEvaluationApi.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { HasErrors = true, Message = "User creation failed! Please check user details and try again." });
 
+            await _userManager.AddToRoleAsync(user, UserRoles.NormalUser);
             return Ok(new Response { HasErrors =false, Message = "User created successfully!" });
         }
 
